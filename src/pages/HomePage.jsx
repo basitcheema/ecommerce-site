@@ -1,20 +1,27 @@
+import { Button } from "@mui/material";
 import ResponsiveAppBar from "../components/AppBar";
 import GridCards from "../components/GridCards";
+import { useState } from "react";
 
 
 function HomePage(){
 
-    async function getProducts(){
+    const [prodList, setProdList]  = useState(null);
+
+    async function GetProducts(){
         const res = await fetch("http://localhost:5001/products");
         const jsonData = await res.json();
-        console.log(jsonData);
+        setProdList(jsonData);
+
     }
     
-    getProducts();
+    GetProducts();
+
     return(
         <>
-        <GridCards />
-        <GridCards />
+
+        {prodList === null ? <p>Product List Loading</p>:<GridCards data={prodList}/> }
+
         </>
     )
 }
